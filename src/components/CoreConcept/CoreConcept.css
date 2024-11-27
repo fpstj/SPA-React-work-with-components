@@ -35,6 +35,7 @@ main h2 {
 
 #core-concepts li h3 {
   margin: 0.5rem 0;
+  text-align: center;
 }
 
 #core-concepts li p {

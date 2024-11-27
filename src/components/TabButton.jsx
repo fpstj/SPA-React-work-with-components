@@ -1,9 +1,11 @@
 import React from "react";
 
-function Buttons({ children, onButtonClick }) {
+function Buttons({ children, onButtonClick, isSelected }) {
   return (
     <li>
-      <button onClick={onButtonClick}>{children}</button>
+      <button className={isSelected ? "active" : ""} onClick={onButtonClick}>
+        {children}
+      </button>
     </li>
   );
 }

@@ -1,16 +1,40 @@
 import { useState } from "react";
 import "./App.css";
 import { CORE_CONCEPTS } from "./data";
+import { EXAMPLES } from "./data-with-examples";
 import Header from "./components/Header/Header";
 import CoreConcept from "./components/CoreConcept/CoreConcept";
 import TabButton from "./components/TabButton";
 
 function App() {
-  const [selectedTopic, setSelectedTopic] = useState("Please click a button");
+  const [selectedTopic, setSelectedTopic] = useState("");
 
   function buttonClick(clickedButton) {
     setSelectedTopic(clickedButton);
-    // console.log(selectedTopic);
+  }
+
+  const example = EXAMPLES[selectedTopic] || {
+    title: "Not Found",
+    description: "No example available for this topic.",
+    code: "// No code example",
+  };
+
+  let tabContent = (
+    <p className="left-align">
+      Please select topic by clicking on one of the buttons above.
+    </p>
+  );
+
+  if (selectedTopic) {
+    tabContent = (
+      <div id="tab-content" className="left-align">
+        <h3>{example.title}</h3>
+        <p>{example.description}</p>
+        <pre>
+          <code>{example.code}</code>
+        </pre>
+      </div>
+    );
   }
 
   return (
@@ -20,31 +44,40 @@ function App() {
         <section id="core-concepts">
           <h2>Core Concepts</h2>
           <ul>
-            <CoreConcept {...CORE_CONCEPTS[0]} />
-            <CoreConcept {...CORE_CONCEPTS[1]} />
-            <CoreConcept {...CORE_CONCEPTS[2]} />
-            <CoreConcept
-              title={CORE_CONCEPTS[3].title}
-              description={CORE_CONCEPTS[3].description}
-              image={CORE_CONCEPTS[3].image}
-            />
+            {CORE_CONCEPTS.map((conceptItem) => (
+              <CoreConcept key={conceptItem.title} {...conceptItem} />
+            ))}
           </ul>
         </section>
         <section id="examples">
           <h2>Examples</h2>
           <menu>
-            <TabButton onButtonClick={() => buttonClick("components")}>
+            <TabButton
+              isSelected={selectedTopic === "components"}
+              onButtonClick={() => buttonClick("components")}
+            >
               Components
             </TabButton>
-            <TabButton onButtonClick={() => buttonClick("jsx")}>JSX</TabButton>
-            <TabButton onButtonClick={() => buttonClick("props")}>
+            <TabButton
+              isSelected={selectedTopic === "jsx"}
+              onButtonClick={() => buttonClick("jsx")}
+            >
+              JSX
+            </TabButton>
+            <TabButton
+              isSelected={selectedTopic === "props"}
+              onButtonClick={() => buttonClick("props")}
+            >
               Props
             </TabButton>
-            <TabButton onButtonClick={() => buttonClick("state")}>
+            <TabButton
+              isSelected={selectedTopic === "state"}
+              onButtonClick={() => buttonClick("state")}
+            >
               State
             </TabButton>
           </menu>
-          {selectedTopic}
+          {tabContent}
         </section>
       </main>
     </div>
