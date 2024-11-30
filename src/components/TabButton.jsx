@@ -1,9 +1,9 @@
 import React from "react";
 
-function Buttons({ children, onButtonClick, isSelected }) {
+function Buttons({ children, isSelected, ...props }) {
   return (
     <li>
-      <button className={isSelected ? "active" : ""} onClick={onButtonClick}>
+      <button className={isSelected ? "active" : ""} {...props}>
         {children}
       </button>
     </li>
